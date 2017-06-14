@@ -1,13 +1,15 @@
 <?php include("cabecalho.php") ?>
 	<h1>Formulário de cadastro Voluntário</h1>
-	<form action="volunteer.php">
-		Nome: <input type="text" name="nome"><br>
-		Idade: <input type="number" name="idade"><br>
-		CPF: <input type="number" name="cpf"><br>
-		telefone: <input type="number" name="idade"><br>
-		descrição: <input type="text" name="idade"><br>
-		email: <input type="email" name="idade"><br>
+	<div class="form-group">
+		<form action="volunteer.php">
+			Nome: <input type="text" name="nome" required><br>
+			Idade: <input type="number" name="idade" required><br>
+			CPF: <input type="number" name="cpf" required><br>
+			telefone: <input type="text" name="telefone" required><br>
+			descrição: <input type="text" name="descricao" required><br>
+			email: <input type="email" name="email" required><br>
 
-		<input type="submit" name="cadastrar">
-	</form>
+			<input type="submit" name="adicionar">
+		</form>
+	</div>
 <?php include("rodape.php"); ?>
