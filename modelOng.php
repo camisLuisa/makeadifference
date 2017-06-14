@@ -13,7 +13,7 @@ $cidade = $_GET["cidade"];
 $uf = $_GET["uf"];
 $conexao = mysqli_connect('localhost', 'root', '', 'make_a_difference');
 
-$query = "INSERT INTO instituicao (nome_instituicao,email,telefone_instituicao,descricao,cnpj,rua,numero,bairro,cidade,estado) values ('{$nome}', '{$email}', '{$telefone}', '{$descricao}', '{$cnpj}', '{$rua}', '{$numero}', '{$bairro}', '{$cidade}', '{$uf}')";
+$query = "INSERT INTO instituicao (nome_instituicao,telefone_instituicao,descricao,cnpj,rua,numero,bairro,cidade,estado) values ('{$nome}', '{$telefone}', '{$descricao}', '{$cnpj}', '{$rua}', '{$numero}', '{$bairro}', '{$cidade}', '{$uf}')";
 if(mysqli_query($conexao, $query)){ ?>
 	<p class="alert-success">
 	Usuario <?=$nome;?> adicionado com sucesso!
@@ -24,6 +24,5 @@ if(mysqli_query($conexao, $query)){ ?>
 }
 ?>
 
-?>
 
 <?php include("rodape.php");?>
