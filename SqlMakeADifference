@@ -1,0 +1,95 @@
+﻿// criação de tabelas
+
+//CRIANDO AS TABELAS DO NOSSO BD DE ACORDO COM O MAPEAMENTO E NORMALIZAÇÃO FEITOS ** ver chave estrangeira e ver tipo para fto
+
+CREATE DATABASE 'make_a_difference';
+USE 'make_a_difference';
+
+ALTER TABLE `vaga` ADD CONSTRAINT `cod_evento` FOREIGN KEY ( `cod_evento` ) REFERENCES `evento` ( `cod_evento` );
+
+CREATE TABLE voluntario(cod_voluntario INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	nome_voluntario VARCHAR(255) NOT NULL,
+    email_voluntario VARCHAR(255) NOT NULL UNIQUE,
+	cpf VARCHAR(255) NOT NULL UNIQUE, 
+	idade INTEGER NOT NULL,
+	telefone_voluntario VARCHAR(255) NOT NULL,
+	descricao_voluntario VARCHAR(255));
+	
+	CREATE TABLE instituicao(cod_instituicao INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nome_instituicao VARCHAR(255) NOT NULL, 
+        email_instituicao VARCHAR(255) NOT NULL,
+	telefone_instituicao VARCHAR(255) NOT NULL, 
+	descricao VARCHAR(255),
+	cnpj VARCHAR(255) NOT NULL UNIQUE,
+	rua VARCHAR(255) NOT NULL,
+	numero INTEGER NOT NULL,
+	bairro VARCHAR(255) NOT NULL, 
+	cidade VARCHAR(255) NOT NULL,
+	estado VARCHAR(255) NOT NULL);
+
+CREATE TABLE habilidade(cod_habilidade INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome_hab TEXT NOT NULL UNIQUE);
+
+CREATE TABLE evento(cod_evento INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	cod_instituicao INTEGER NOT NULL,
+	nome_evento VARCHAR(255) NOT NULL,
+	descricao_evento VARCHAR(255) NOT NULL,
+	urgencia VARCHAR(255),
+	data_evento VARCHAR(255) NOT NULL,
+    FOREIGN KEY (cod_instituicao) REFERENCES instituicao (cod_instituicao)); 
+
+
+CREATE TABLE vaga(cod_vaga INTEGER NOT NULL AUTO_INCREMENT,
+    cod_evento INTEGER,
+    quantidade_vaga INTEGER,
+	CONSTRAINT pk_vaga PRIMARY KEY (cod_vaga, cod_evento),
+	FOREIGN KEY (cod_evento) REFERENCES evento (cod_evento));
+
+
+CREATE TABLE requer(cod_evento INTEGER NOT NULL,
+    cod_habilidade INTEGER NOT NULL, 
+    cod_vaga INTEGER NOT NULL,
+    CONSTRAINT pk_requer PRIMARY KEY (cod_evento,cod_vaga,cod_habilidade),
+    FOREIGN KEY (cod_evento) REFERENCES evento (cod_evento),
+    FOREIGN KEY (cod_habilidade) REFERENCES habilidade (cod_habilidade),
+    FOREIGN KEY (cod_vaga) REFERENCES vaga (cod_vaga));
+
+CREATE TABLE comenta(cod_voluntario INTEGER NOT NULL,
+    cod_evento INTEGER NOT NULL, 
+    texto VARCHAR(255),
+    data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_comenta PRIMARY KEY (cod_voluntario,cod_evento,data_hora),
+    FOREIGN KEY (cod_voluntario) REFERENCES voluntario (cod_voluntario),
+    FOREIGN KEY (cod_evento) REFERENCES evento (cod_evento));
+
+
+CREATE TABLE candidatar(cod_voluntario INTEGER NOT NULL,
+    cod_vaga INTEGER NOT NULL,
+    status BOOLEAN DEFAULT FALSE,
+    data_candidato TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_candidatar PRIMARY KEY (cod_voluntario,cod_vaga),
+    FOREIGN KEY (cod_voluntario) REFERENCES voluntario (cod_voluntario),
+    FOREIGN KEY (cod_vaga) REFERENCES vaga (cod_vaga));
+
+CREATE TABLE possui(cod_voluntario INTEGER NOT NULL, 
+	cod_habilidade INTEGER NOT NULL,
+	CONSTRAINT pk_possui PRIMARY KEY (cod_voluntario,cod_habilidade),
+	FOREIGN KEY (cod_voluntario) REFERENCES voluntario(cod_voluntario),
+	FOREIGN KEY (cod_habilidade) REFERENCES habilidade (cod_habilidade));
+
+CREATE TABLE denuncia(cod_denunciante INTEGER NOT NULL,
+	cod_denunciado INTEGER NOT NULL,
+    texto VARCHAR(255) NOT NULL, 
+    data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_denuncia PRIMARY KEY (cod_denunciante,cod_denunciado,data_hora),
+    FOREIGN KEY (cod_denunciado) REFERENCES voluntario (cod_voluntario),
+    FOREIGN KEY (cod_denunciante) REFERENCES voluntario (cod_voluntario));
+
+
+
+
+
+
+
+
+
